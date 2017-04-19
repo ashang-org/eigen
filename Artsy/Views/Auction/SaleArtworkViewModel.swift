@@ -42,6 +42,10 @@ extension PublicComputedProperties {
     var artworkID: String {
         return saleArtwork.artwork.artworkID
     }
+    
+    var hasBids: Bool {
+        return (saleArtwork.bidCount?.intValue ?? 0) > 0
+    }
 
     func currentOrStartingBidWithNumberOfBids(_ includeNumberOfBids: Bool) -> String {
         if saleArtwork.auctionState.contains(.ended) {
@@ -49,7 +53,7 @@ extension PublicComputedProperties {
         }
 
         let bidString = saleArtwork.highestOrStartingBidString()
-        if includeNumberOfBids && (saleArtwork.bidCount?.intValue ?? 0) > 0 {
+        if includeNumberOfBids && hasBids {
             let numberOfBidsString = saleArtwork.numberOfBidsString()
             return "\(bidString) \(numberOfBidsString)"
         } else {
